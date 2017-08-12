@@ -18,5 +18,8 @@ class TANKBATTLE_API ATankPlayerController : public APlayerController
 public:
 	ATank* GetControlledTank() const;
 	virtual void BeginPlay() override;
-	
+	virtual void Tick(float DeltaTime) override;
+
+private:
+	void AimTowardsCrosshair(); //Line trace through crosshair so we can fire the barrel correctly.
 };
