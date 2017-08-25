@@ -5,34 +5,11 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
 
 //Called at the beginning of play
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (!GetControlledTank())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AI Controller not possessing a tank!"));
-		return;
-	}
-
-	if (!GetPlayerTank())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No player tank found!"));
-		return;
-	}
-
-}
-
-//Get the player controlled tank i.e. not the AI
-ATank * ATankAIController::GetPlayerTank() const
-{
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 // Called every frame
@@ -40,22 +17,16 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (GetPlayerTank())
+	ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	ATank* ControlledTank = Cast<ATank>(GetPawn());
+
+	if (PlayerTank)
 	{
 		//TODO Move towards the player
 
-		//TODO Aim towards the player
-		AimTowardsTank();
+		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
-		//TODO Fire when ready
+		ControlledTank->Fire(); //TODO: Don't fire every frame
 	}
-	
-
-}
-
-//Forces AI Tank to aim towards the player tank
-void ATankAIController::AimTowardsTank()
-{
-	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 }
 
