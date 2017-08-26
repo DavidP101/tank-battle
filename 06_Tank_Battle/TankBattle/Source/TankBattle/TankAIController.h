@@ -20,4 +20,6 @@ class TANKBATTLE_API ATankAIController : public AAIController
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	//how close can the AI get to the player
+	float AcceptanceRadius = 3000;
 };

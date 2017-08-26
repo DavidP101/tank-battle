@@ -29,3 +29,16 @@ void UTankMovementComponent::IntendRotate(float Throw)
 	//TODO: Prevent Double Speed due to duel control use
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	FVector TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	FVector AIForwardIntention = MoveVelocity.GetSafeNormal();
+
+	float IntendedVerticalMovement = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveVertically(IntendedVerticalMovement);
+	float IntendedSideMovement = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
+	IntendRotate(IntendedSideMovement);
+
+	//UE_LOG(LogTemp, Warning, TEXT("%s moving %s"), *GetOwner()->GetName(), *MoveVelocity.GetSafeNormal().ToString());
+}
+
