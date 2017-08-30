@@ -31,6 +31,7 @@ void UTankMovementComponent::IntendRotate(float Throw)
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
+	UE_LOG(LogTemp, Warning, TEXT("I'm here %s"), *GetOwner()->GetName());
 	FVector TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	FVector AIForwardIntention = MoveVelocity.GetSafeNormal();
 

@@ -30,25 +30,31 @@ class TANKBATTLE_API UTankAimingComponent : public UActorComponent
 
 
 public:	
-	// Sets default values for this component's properties
-	UTankAimingComponent();
 	void AimAt(FVector HitLocation);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Initialise(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 	UFUNCTION(BlueprintCallable, Category = Attack)
 	void Fire();
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float ReloadTimeInSeconds = 3;
+
+
+
+private:
+	// Sets default values for this component's properties
+	UTankAimingComponent();
+	void MoveBarrelTowards(FVector AimDirection);
+
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 5000;
-	double LastFireTime = 0;
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
-private:
-	void MoveBarrelTowards(FVector AimDirection);
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSeconds = 3;
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 5000;
+	double LastFireTime = 0;
+
+
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = State)

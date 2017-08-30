@@ -17,11 +17,12 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!ensure(GetPawn())) { return; }
+
 	APawn* PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	UTankAimingComponent* AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
-	if (!ensure(AimingComponent) || !ensure(PlayerTank)) { return; }
-
+	if (!ensure(AimingComponent && PlayerTank)) { return; }
 	MoveToActor(PlayerTank, AcceptanceRadius);
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 	AimingComponent->Fire();

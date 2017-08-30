@@ -56,7 +56,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 //Based on the Unit Vector we'll need to move the barrel
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!ensure(Barrel) || !ensure(Turret)) { return; }
+	if (!ensure(Barrel && Turret)) { return; }
 
 	//Work out difference between current barrel location and aimdirection
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
@@ -71,7 +71,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel)) { return; }
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
 
 	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
@@ -83,7 +83,7 @@ void UTankAimingComponent::Fire()
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile")));
 
-		//Projectile->LaunchProjectile(LaunchSpeed);
+		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
