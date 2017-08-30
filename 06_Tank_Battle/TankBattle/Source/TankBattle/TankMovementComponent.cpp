@@ -11,7 +11,7 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 
 void UTankMovementComponent::IntendMoveVertically(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
@@ -21,7 +21,7 @@ void UTankMovementComponent::IntendMoveVertically(float Throw)
 
 void UTankMovementComponent::IntendRotate(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
@@ -39,6 +39,5 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 	float IntendedSideMovement = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
 	IntendRotate(IntendedSideMovement);
 
-	//UE_LOG(LogTemp, Warning, TEXT("%s moving %s"), *GetOwner()->GetName(), *MoveVelocity.GetSafeNormal().ToString());
 }
 

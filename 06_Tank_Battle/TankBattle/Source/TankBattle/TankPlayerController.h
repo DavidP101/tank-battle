@@ -10,8 +10,6 @@
  * 
  */
 
-class ATank;
-
 UCLASS()
 class TANKBATTLE_API ATankPlayerController : public APlayerController
 {
@@ -21,8 +19,11 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UFUNCTION(BlueprintImplementableEvent, Category = Setup)
+	void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
+
 private:
-	ATank* GetControlledTank() const;
 	void AimTowardsCrosshair(); //Line trace through crosshair so we can fire the barrel correctly.
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
